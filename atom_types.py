@@ -13,6 +13,9 @@ def type_cifs(mof_dir_path, output_dir, package, ff):
     if package.lower() == "autografs":
         from autografs_type_mofs import autografs_type_mofs
         mof_atom_types, err_mofs = autografs_type_mofs(mof_dir_path, output_dir, ff)
+    elif package.lower() == "boyd_smit":
+        from boyd_smit_type_mofs import boyd_smit_type_mofs
+        mof_atom_types, err_mofs = boyd_smit_type_mofs(mof_dir_path, output_dir, ff)
     else:
         raise Exception("Package %s not implemented yet" % package)
 
