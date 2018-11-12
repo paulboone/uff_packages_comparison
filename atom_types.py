@@ -20,11 +20,11 @@ def type_cifs(mof_dir_path, output_dir, package, ff):
         raise Exception("Package %s not implemented yet" % package)
 
     # Save unique atom types
-    with open(os.path.join(output_dir, "autografs_%s_atom_types.yaml" % ff), 'w') as f:
+    with open(os.path.join(output_dir, "%s_%s_atom_types.yaml" % (package, ff)), 'w') as f:
         yaml.dump(mof_atom_types, f)
 
     # Save error MOFs
-    with open(os.path.join(output_dir, "autografs_%s_err_mofs.yaml" % ff), 'w') as f:
+    with open(os.path.join(output_dir, "%s_%s_err_mofs.yaml" % (package, ff)), 'w') as f:
         yaml.dump(err_mofs, f)
 
 
