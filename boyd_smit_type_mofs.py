@@ -87,7 +87,8 @@ def boyd_smit_type_mofs(mof_dir, output_dir, ff="uff"):
             mof_name = filename.split('_')[0]
 
             types = cif_to_types(os.path.join(mof_dir, filename), ff)
-            mof_atom_types[mof_name] = types
+            uniq_types = sorted(set(types))
+            mof_atom_types[mof_name] = [str(i) for i in uniq_types]
 
         except Exception as e:
             err_mofs.append(filename)

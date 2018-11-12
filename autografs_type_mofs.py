@@ -27,7 +27,6 @@ def autografs_type_mofs(mof_dir, output_dir, ff="uff"):
 
             bonds, types = analyze_mm(mof, library=library)
             uniq_types = sorted(set(types))
-
             mof_atom_types[mof_name] = [str(i) for i in uniq_types]
 
             # # Save atom types for each mof
