@@ -1,0 +1,2 @@
+openbabel
+git+https://github.com/kbsezginel/angstrom
