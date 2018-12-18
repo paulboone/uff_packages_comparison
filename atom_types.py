@@ -8,7 +8,7 @@ import yaml
 # output_dir = '/ihome/cwilmer/kbs37/git/autografs/scratch/mofs'
 
 
-def type_cifs(path, output_dir, ff):
+def type_cifs(path, output_dir, ff, package, output_files=False):
     os.makedirs(output_dir, exist_ok=True)
 
     if not os.path.isdir(path):
@@ -23,8 +23,9 @@ def type_cifs(path, output_dir, ff):
 
         for idx, filename in enumerate(mof_list, start=1):
             print('%i | %s' % (idx, filename))
+            mof_name = filename.split('_')[0]
             try:
-                mof_atom_types[mof_name] = type_mof(os.path.join(path, filename), output_dir, ff)
+                mof_atom_types[mof_name] = type_mof(os.path.join(path, filename), output_dir, ff, output_files)
                 # # Save atom types for each mof
                 # with open(os.path.join(output_dir, '%s.yaml' % mof_name), 'w') as f:
                 #     yaml.dump([str(i) for i in types], f)
@@ -59,4 +60,4 @@ elif args.package.lower() == "openbabel":
 else:
     raise Exception("Package %s not implemented yet" % args.package)
 
-type_cifs(args.mof_dir_path, args.output_dir, args.forcefield, args.output_files)
+type_cifs(args.mof_dir_path, args.output_dir, args.forcefield, args.package, args.output_files)
