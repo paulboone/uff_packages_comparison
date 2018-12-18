@@ -55,7 +55,7 @@ class Parameters:
         for v in vars(self):
             print('%-15s: %s' % (v, getattr(self, v)))
 
-def cif_to_types(mof_path, ff):
+def cif_to_types(mof_path, ff, output_files=True):
     params = Parameters(mof_path)
     sim = LammpsSimulation(params)
     sim.options.mol_ff = ff
@@ -67,31 +67,20 @@ def cif_to_types(mof_path, ff):
     sim.set_graph(graph)
     sim.split_graph()
     sim.assign_force_fields()
-    # sim.compute_simulation_size()
+    sim.compute_simulation_size()
     sim.merge_graphs()
 
+    if output_files:
+        sim.write_lammps_files()
+
     sim.unique_atoms(sim.graph)
+
+
     unique_atom_types = [v[1]['force_field_type'] for i, (k, v) in enumerate(sim.unique_atom_types.items())]
     return unique_atom_types
 
 
-def boyd_smit_type_mofs(mof_dir, output_dir, ff="uff"):
-
-    err_mofs = []
-    mof_atom_types = {}
-    mof_list = os.listdir(mof_dir)
-
-    for idx, filename in enumerate(mof_list, start=1):
-        print('%i | %s' % (idx, filename))
-        try:
-            mof_name = filename.split('_')[0]
-
-            types = cif_to_types(os.path.join(mof_dir, filename), ff)
-            uniq_types = sorted(set(types))
-            mof_atom_types[mof_name] = [str(i) for i in uniq_types]
-
-        except Exception as e:
-            err_mofs.append(filename)
-            print("!!!ERROR -> {0}".format(e))
-
-    return mof_atom_types, err_mofs
+def type_mof(filename, output_dir, ff="uff", output_files=True):
+    types = cif_to_types(filename, ff)
+    uniq_types = sorted(set(types))
+    return [str(i) for i in uniq_types]
